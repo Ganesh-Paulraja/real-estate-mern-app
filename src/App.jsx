@@ -1,9 +1,23 @@
 import React from 'react'
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from './pages/Home'
+import Signin from './pages/Signin'
+import Signout from './pages/Signup'
+import About from './pages/About'
+import Profile from './pages/Profile'
 
 export default function App() {
   return (
-    <div className='text-red-500 bg-black  border p-5'>
-      <h1 className="bg-yellow-500 border-2 border-red-500 rounded-sm hover:border-green-500" >gg dd test</h1>
+    <div className='app-wrap'>
+     <BrowserRouter>
+     <Routes>
+      <Route path='/' element={<Home/>}/>
+      <Route path='/Signin' element={<Signin/>}/>
+      <Route path='/Signup' element={<Signout/>}/>
+      <Route path='/About' element={<About/>}/>
+      <Route path='/Profile' element={<Profile/>}/>
+     </Routes>
+     </BrowserRouter>
     </div>
   )
 }
