@@ -20,7 +20,7 @@ export default function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     // setLoading(true);
-    dispatch(signInStart)
+    dispatch(signInStart())
     try {
       const res = await fetch('/api/auth/signin', {
           method: 'POST',
@@ -47,7 +47,7 @@ export default function Signin() {
       dispatch(signInFailure(error.message));
     }
   }
-  console.log(formData);
+  console.log(loading);
   return (
     <div className='p-3 max-w-lg mx-auto'>
       <h1  className='text-3xl text-center font-semibold my-7'>
@@ -61,7 +61,7 @@ export default function Signin() {
       </form>
       <div className="flex gap-2 mt-5">
         <p>Dont an account?</p>
-        <Link to={"/Signin"}>
+        <Link to={"/Signup"}>
          <span className="text-blue-700">Sign up</span>
         </Link>
       </div>
