@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { signInStart, signInFailure, signInSucces } from '../redux/user/userSlice'
+import OAuth from '../components/OAuth'
 
 export default function Signin() {
   const [formData, setFormData] = useState({})
@@ -38,7 +39,6 @@ export default function Signin() {
         }
         // setLoading(false);
         // setError(null);
-        // console.log('work');
         dispatch(signInSucces(data));
         navigate('/')
     } catch(error) {
@@ -53,13 +53,14 @@ export default function Signin() {
       <h1  className='text-3xl text-center font-semibold my-7'>
       Sign In
       </h1>
-      <form onSubmit={handleSubmit}  className='flex flex-col gap-4'>
+      <form onSubmit={handleSubmit}  className='flex flex-col gap-4 mb-3'>
      
         <input type="text" placeholder='email' className='border p-3 rounded-lg' id='email' onChange={handleChange}/>
         <input type="text" placeholder='password' className='border p-3 rounded-lg' id='password' onChange={handleChange}/>
         <button disabled = {loading} className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{ loading ? 'Loading...':'Sign in'} </button>
       </form>
-      <div className="flex gap-2 mt-5">
+      <OAuth/>
+      <div className="flex gap-2 mt-3">
         <p>Dont an account?</p>
         <Link to={"/Signup"}>
          <span className="text-blue-700">Sign up</span>
