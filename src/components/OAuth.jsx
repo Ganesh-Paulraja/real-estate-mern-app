@@ -17,7 +17,7 @@ export default function OAuth() {
       const res = await fetch ('/api/auth/google', {
         method: 'POST',
         headers: {
-          'Content-type': 'appliction/json',
+          'Content-type': 'application/json',
         },
         body: JSON.stringify({
           name: result.user.displayName, 
@@ -25,9 +25,10 @@ export default function OAuth() {
           photo: result.user.photoURL})
       })
       const data = await res.json();
-      dispatch(signInSucces(data));
-      navigate('/');
-      console.log(result);
+      if(data.email) {
+        dispatch(signInSucces(data));
+        navigate('/');
+      }
     } catch (error) {
       console.log('could not sign in with google:', error);
     }
