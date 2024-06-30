@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import {v4} from 'uuid'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
-import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice';
+import { deleteUserFailure, deleteUserSuccess, deleteUserStart, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function Profile() {
@@ -14,13 +14,13 @@ export default function Profile() {
   const [formData, setFormData] = useState({});
   const [successful, setsuccessful] = useState(false)
   const dispatch = useDispatch();
-  
   useEffect(() => {
     if (file) {
       handleFileUpload();
     }
   }, [file]);
   const handleFileUpload = () => {
+    setFileUploadError(false)
     const storage = getStorage(app)
     const fileName = v4() + file.name;
     const storageRef = ref(storage,'userImages/' + fileName)
@@ -50,7 +50,6 @@ export default function Profile() {
     e.preventDefault();
     setsuccessful(false);
     try {
-      console.log('work');
       dispatch(updateUserStart())
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
         method: 'POST',
@@ -70,6 +69,25 @@ export default function Profile() {
       dispatch(updateUserFailure(error.message));
     }
   }
+
+  const handleDeleteUser = async () => {
+    dispatch(deleteUserStart());
+    try {
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: 'DELETE'
+      });
+      console.log(currentUser);
+      const data = await res.json();
+      if(data.success === false) {
+        dispatch(deleteUserFailure(data.message))
+        return;
+      }
+      dispatch(deleteUserSuccess())
+    } catch (error) {
+      console.log(error);
+      dispatch(deleteUserFailure(error.message))
+    }
+  } 
 
   return (
     <div className='w-full px-4 mx-auto md:w-96'>
@@ -127,12 +145,9 @@ export default function Profile() {
         </button>
       </form>
       <div className="flex justify-between mt-5">
-        <span className='text-red-700 cursor-pointer'>Delete account</span>
+        <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete account</span>
         <span className='text-red-700 cursor-pointer'>Sign out</span>
       </div>
-      {fileUploadError && (
-        <p className="text-red-700 mt-2">Error uploading file. Please try again.</p>
-      )}
       {error && (
         <p className="text-red-700 mt-2">{error}</p>
       )}
