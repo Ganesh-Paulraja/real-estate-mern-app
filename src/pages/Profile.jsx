@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import {v4} from 'uuid'
-import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
+import { getDownloadURL, getStorage, list, ref, uploadBytesResumable } from 'firebase/storage';
 import { app } from '../firebase';
 import { deleteUserFailure, deleteUserSuccess, deleteUserStart, updateUserFailure, updateUserStart, updateUserSuccess, signOutUserStart } from '../redux/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -119,6 +119,21 @@ export default function Profile() {
       showListingError(true)
     }
   }
+  const handleListDelete = async (listingId) => {
+    try {
+      const res = await fetch(`/api/listing/delete${listingId}`, {
+        method: 'DELETE',
+      })
+      const data = await res.json();
+      if (data.success === false) {
+        console.log(data.message);
+        return
+      }
+      setUserListings((prev) => prev.filter((listing) => listing._id !== listingId))
+    } catch (error) {
+      console.log(error.message); 
+    }
+  }
   return (
     <div className='w-full px-4 mx-auto md:w-96'>
       <h1 className='text-3xl font-bold text-center my-7'>Profile</h1>
@@ -190,9 +205,9 @@ export default function Profile() {
         <p className="text-red-700 mt-2">Error showing listing</p>
       )}
       <div className='flex flex-col gap-4 mb-12'>
-        <h1 className='text-center my-7 mb-4 text-2xl font-bold'>Your Listings</h1>
       {userlistings && userlistings.length > 0 && (
           <div className='flex flex-col gap-4'>
+            <h1 className='text-center my-7 mb-4 text-2xl font-bold'>Your Listings</h1>
            {
             userlistings.map((listing) => (
               <div className='border rounded-lg p-3 flex justify-between items-center gap-4' key={listing._id}>
@@ -203,7 +218,7 @@ export default function Profile() {
                   <p>{listing.name}</p>
                 </Link>
                 <div className="flex flex-col item-center">
-                  <button className='text-red-700 uppercase'> Delete</button>
+                  <button className='text-red-700 uppercase' onClick={() => handleListDelete(listing._id)}> Delete</button>
                   <button className='text-green-700 uppercase'> Edit</button>
                 </div>
               </div>
