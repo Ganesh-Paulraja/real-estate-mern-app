@@ -12,17 +12,19 @@ import PrivateRoute from './components/PrivateRoute'
 import CreateListing from './pages/CreateListing'
 import UpdateListing from './pages/UpdateListing'
 import Listing from './pages/Listing'
+import Search from './pages/Search'
 
 export default function App() {
   return (
     <div className='app-wrap'>
      <BrowserRouter>
      <Header/>
-     <Routes>
+     <Routes> 
       <Route path='/' element={<Home/>}/>
       <Route path='/Signin' element={<Signin/>}/>
       <Route path='/Signup' element={<Signup/>}/>
       <Route path='/About' element={<About/>}/>
+      <Route path='/Search' element={<Search/>}/>
       <Route path='/listing/:listingId' element={<Listing/>}/>
       <Route  element={<PrivateRoute/>}>
         <Route path='/Profile' element={<Profile/>}/>
