@@ -14,7 +14,7 @@ export default function Search() {
   })
   const [loading, setLoading] = useState(false)
   const [listing, setListing] = useState([])
-  console.log(listing);
+  // console.log(listing);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -47,11 +47,14 @@ export default function Search() {
     const fetchListing = async () => {
       setLoading(true)
       const searchQuery = urlParams.toString()
-      const res = await fetch(`/api/listing/get?${searchQuery}`)
+      console.log(searchQuery);
+      const res = await fetch(`/api/listing/getList?${searchQuery}`)
       const data = await res.json();
+      console.log(data);
       setListing(data);
       setListing(false);
     }
+    fetchListing();
   }, [location.search])
   const handleChange = (e) => {
     const eventTarget = e.target.id;
@@ -64,8 +67,7 @@ export default function Search() {
     }
 
     if (eventTarget === 'parking' || eventTarget === 'furnished' || eventTarget === 'offer') {
-      console.log(e.target.checked, eventTarget);
-      setSidebardata({...sidebardata, [e.target.id]: e.target.checked === true ? true : false,
+        setSidebardata({...sidebardata, [e.target.id]: e.target.checked === true ? true : false,
       })
     }
     if (e.target.id === 'sort_order') {
