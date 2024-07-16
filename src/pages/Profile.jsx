@@ -191,14 +191,14 @@ export default function Profile() {
         <Link className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95' to={"/create-listing"}>Create Listing</Link>
       </form>
       <div className="flex justify-between mt-5">
-        <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete account</span>
-        <span className='text-red-700 cursor-pointer' onClick={handleSignOut}>Sign out</span>
+        {/* <span className='text-red-700 cursor-pointer' onClick={handleDeleteUser}>Delete account</span> */}
+        <span className='text-red-700 cursor-pointer float-right mx-auto' onClick={handleSignOut}>Sign out</span>
       </div>
       {error && (
         <p className="text-red-700 mt-2">{error}</p>
       )}
       {successful && (
-        <p className="text-green-700 mt-2">updated successfully</p>
+        <p className="text-green-700 mx-auto mt-2 w-fit">updated successfully</p>
       )}
       <button onClick={handleShowListings} className='text-green-700 mx-auto  mt-5 block '>Show Listing</button>
       {showListingError && (
@@ -218,7 +218,7 @@ export default function Profile() {
                   <p>{listing.name}</p>
                 </Link>
                 <div className="flex flex-col item-center">
-                  <button className='text-red-700 uppercase' onClick={() => handleListDelete(listing._id)}> Delete</button>
+                  {/* <button className='text-red-700 uppercase' onClick={() => handleListDelete(listing._id)}> Delete</button> */}
                   <Link to={`/update-listing/${listing._id}`}>
                   <button className='text-green-700 uppercase'> Edit</button>
                   </Link>

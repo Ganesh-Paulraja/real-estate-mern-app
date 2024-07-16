@@ -17,7 +17,6 @@ export default function Listing() {
   const [copied, setCopied] = useState(false)
   const [contact, setContact] = useState(false)
   const currentUser = useSelector((state) => state.user.currentUser)
-  console.log(listing);
   useEffect( () => {
     const fetchListing = async () => {
       try {
@@ -55,9 +54,12 @@ export default function Listing() {
           <Swiper navigation>
             {listing.imageUrls.map((url) => (
               <SwiperSlide key={url}>
-                <div className="" >
-                  <img src={url} alt="" className='h-full w-full max-h-[550px]' />
-                </div>
+              <div className="h-[350px] sm:h-[550px]" 
+                style={{ 
+                  backgroundImage: `url(${url})`, 
+                  backgroundSize: 'cover', 
+                  backgroundPosition: 'center', }}>
+              </div>
               </SwiperSlide>
             ))}
           </Swiper>
@@ -97,7 +99,7 @@ export default function Listing() {
   </li>
   <li className='flex items-center gap-1 whitespace-nowrap'>
     <FaParking className='text-lg'/>
-    {listing.parking > 1 ? `Parking spot` : `No Parking`} 
+    {listing.parking  ? `Parking spot` : `No Parking`} 
   </li>
   <li className='flex items-center gap-1 whitespace-nowrap'>
     <FaChair className='text-lg'/>

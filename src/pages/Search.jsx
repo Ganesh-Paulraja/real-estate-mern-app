@@ -51,7 +51,7 @@ export default function Search() {
       console.log(searchQuery);
       const res = await fetch(`/api/listing/getList?${searchQuery}`)
       const data = await res.json();
-      if(data.length > 9) {
+      if(data.length > 7) {
         setShowMore(true);
       } else {
         setShowMore(false) // after refresh
@@ -102,9 +102,10 @@ export default function Search() {
     const urlParams = new URLSearchParams(location.search)
     urlParams.set('startIndex', startIndex)
     const searchQuery = urlParams.toString();
+    console.log(searchQuery);
     const res = await fetch(`/api/listing/getList?${searchQuery}`)
     const data = await res.json();
-    if (data.length < 9) {
+    if (data.length < 8) {
       setShowMore(false);
     }
     setListing([...listing, ...data])
@@ -191,7 +192,7 @@ export default function Search() {
       </div>
       <div className="flex-1">
         <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 md:mt-5'>Listing results:</h1>
-        <div className="p-7 flex flex-wrap gap-4">
+        <div className="p-7 flex flex-wrap gap-4 overflow-scroll overflow-x-hidden" style={{maxHeight: 'calc(100vh - 150px)'}}>
           {!loading && listing.length === 0 && (
             <p className='text-xl te-slate-700'>No listing found!</p>
           )}
@@ -201,7 +202,10 @@ export default function Search() {
           {!loading && listing.length > 0 && listing.map((listing) => (
             <ListingItem key={listing._id} listing={listing}/>
           ))}
-          {showMore && (
+
+        </div>
+        <div className="">
+        {showMore && (
             <button onClick={handleShwMore}  className='text-green-700 hover:underline p-7'>
               Show More
             </button>
