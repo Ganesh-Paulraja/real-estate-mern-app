@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import ListingItem from '../components/ListingItem';
 
 export default function Search() {
   const navigate = useNavigate();
@@ -14,7 +15,7 @@ export default function Search() {
   })
   const [loading, setLoading] = useState(false)
   const [listing, setListing] = useState([])
-  // console.log(listing);
+  console.log(loading);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search)
@@ -52,7 +53,7 @@ export default function Search() {
       const data = await res.json();
       console.log(data);
       setListing(data);
-      setListing(false);
+      setLoading(false)
     }
     fetchListing();
   }, [location.search])
@@ -91,11 +92,11 @@ export default function Search() {
     navigate(`/search?${SearchQuery}`)
   }
   return (
-    <div className='flex flex-col md:flex-row md:min-h-screen'>
+    <div className='mx-auto flex flex-col md:flex-row md:min-h-screen max-w-7xl'>
       <div className="p-7 border-b-2 sm:border-r-2">
 <form className='flex flex-col gap-8' onSubmit={handleSubmit}>
 <div className="flex items-center gap-2">
-  <label className="font-semibold">
+  <label className="font-semibold w-[165px]">
     Search Term:
   </label>
   <input type="text" id='searchTerm' placeholder='Search...' className='border rounded-lg p-3 w-full' 
@@ -170,8 +171,19 @@ export default function Search() {
 <button className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95'>Search</button>
         </form>
       </div>
-      <div className="">
+      <div className="flex-1">
         <h1 className='text-3xl font-semibold border-b p-3 text-slate-700 md:mt-5'>Listing results:</h1>
+        <div className="p-7 flex flex-wrap gap-4">
+          {!loading && listing.length === 0 && (
+            <p className='text-xl te-slate-700'>No listing found!</p>
+          )}
+          {loading && (
+            <div className="text-xl text-slate-700 text-center w-full">Loading...</div>
+          )}
+          {!loading && listing.length > 0 && listing.map((listing) => (
+            <ListingItem key={listing._id} listing={listing}/>
+          ))}
+        </div>
       </div>
     </div>
   )
