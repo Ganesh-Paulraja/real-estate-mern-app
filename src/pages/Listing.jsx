@@ -21,21 +21,43 @@ export default function Listing() {
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(import.meta.env.VITE_BACKEND_API + `/api/listing/get/${params.listingId}`)
-        const data = await res.json();
-        if(data.success === false) {
-          setError(true)
-          setLoading(false)
-          return
+    
+        const res = await fetch(`${import.meta.env.VITE_BACKEND_API}/api/listing/get/${params.listingId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        if (!res.ok) {
+          // Check for common HTTP errors and handle them
+          if (res.status === 404) {
+            console.error('Listing not found');
+          } else {
+            console.error('An error occurred:', res.statusText);
+          }
+          setError(true);
+          setLoading(false);
+          return;
         }
-        setListing(data)
-        setLoading(false)
-        setError(false)
-      } catch(error) {
-        setError(true)
-        setLoading(false)
+    
+        const data = await res.json();
+    
+        if (data.success === false) {
+          setError(true);
+          setLoading(false);
+          return;
+        }
+    
+        setListing(data);
+        setError(false);
+      } catch (error) {
+        console.error('Fetch error:', error);
+        setError(true);
+      } finally {
+        setLoading(false);
       }
-    }
+    };
     fetchListing()
   }, [])
   const handleShare = () => {
