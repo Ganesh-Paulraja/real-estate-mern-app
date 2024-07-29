@@ -31,7 +31,7 @@ const params = useParams()
     console.log('start');
     const fetchingListing =  async () => {
       const listingId = params.listingId;
-      const res = await fetch(`/api/listing/get/${listingId}`)
+      const res = await fetch(import.meta.env.VITE_BACKEND_API + `/api/listing/get/${listingId}`)
       const data = await res.json()
       if ( data.success === false ) {
         console.log(data.message);
@@ -128,7 +128,7 @@ const params = useParams()
         ...formData,
         userRef:currentUser._id
       }
-      const res = await fetch(`/api/listing/update/${params.listingId}`, {
+      const res = await fetch(import.meta.env.VITE_BACKEND_API +`/api/listing/update/${params.listingId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -140,7 +140,7 @@ const params = useParams()
       if (data.success === false) {
         setError(data.message);
       }
-      navigate(`/listing/${data._id}`)
+      navigate(import.meta.env.VITE_BACKEND_API + `/listing/${data._id}`)
     } catch (error) {
       setError(error.message);
       setLoading(false);

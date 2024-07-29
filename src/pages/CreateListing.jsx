@@ -113,7 +113,7 @@ const navigate = useNavigate();
         userRef:currentUser._id
       }
       console.log(newData);
-      const res = await fetch('/api/listing/create', {
+      const res = await fetch(import.meta.env.VITE_BACKEND_API + '/api/listing/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

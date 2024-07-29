@@ -12,7 +12,6 @@ export default function Home() {
   const [saleListings, setSaleListings] = useState([])
   const [rentListings, setRentListings] = useState([])
   const Url = import.meta.env.VITE_BACKEND_API
-  console.log(import.meta.env.VITE_BACKEND_API);
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
@@ -26,7 +25,7 @@ export default function Home() {
     }
     const fetchRentListing = async () => {
       try {
-        const res = await fetch('/api/listing/getList?type=rent&limit=4');
+        const res = await fetch(Url+'/api/listing/getList?type=rent&limit=4');
         const data = await res.json()
         setRentListings(data)
         fetchSaleListing()
@@ -36,7 +35,7 @@ export default function Home() {
     }
     const fetchSaleListing = async () => {
       try {
-        const res = await fetch('/api/listing/getList?type=sale&limit=4');
+        const res = await fetch(Url+'/api/listing/getList?type=sale&limit=4');
         const data = await res.json()
         setSaleListings(data)
       } catch (error) {
