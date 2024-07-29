@@ -8,13 +8,13 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "build:deploy":  "env-cmd -f .env npm run build && firebase deploy -P"
+    "build:deploy": "env-cmd -f .env.local npm run build && firebase deploy -P mern-estate-84064"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
-    "firebase": "^10.12.2",
+    "firebase": "^10.12.4",
     "i": "^0.3.7",
     "npm": "^10.8.1",
     "react": "^18.2.0",
@@ -32,6 +32,7 @@
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.19",
+    "env-cmd": "^10.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.0",

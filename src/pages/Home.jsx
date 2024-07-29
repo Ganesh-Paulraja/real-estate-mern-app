@@ -11,11 +11,12 @@ export default function Home() {
   const [offerListings, setOfferListings] = useState([])
   const [saleListings, setSaleListings] = useState([])
   const [rentListings, setRentListings] = useState([])
-  console.log(offerListings);
+  const Url = import.meta.env.VITE_BACKEND_API
+  console.log(import.meta.env.VITE_BACKEND_API);
   useEffect(() => {
     const fetchOfferListings = async () => {
       try {
-        const res = await fetch('/api/listing/getList?offer=true&limit=4&startIndex=5');
+        const res = await fetch(`${Url}/api/listing/getList?offer=true&limit=4&startIndex=5`);
         const data = await res.json()
         setOfferListings(data)
         fetchRentListing()
@@ -83,7 +84,7 @@ export default function Home() {
           <div className="mt-6">
             <div className="">
               <h2 className='text-2xl font-semibold text-slate-600'>Recent Places For Rent</h2>
-              <Link className='text-sm text-blue-800 hover:underline font-semibold' to={'/search/offer=true'}>
+              <Link className='text-sm text-blue-800 hover:underline font-semibold' to={'/search?searchTerm=&type=rent&parking=false&furnished=false&offer=false&sort=createdAt&order=desc'}>
                 Show more places for rent
               </Link>
             </div>
@@ -104,7 +105,7 @@ export default function Home() {
           <div className="mt-6">
             <div className="">
               <h2 className='text-2xl font-semibold text-slate-600'>Recent Places For Sale</h2>
-              <Link className='text-sm text-blue-800 hover:underline font-semibold' to={'/search/offer=true'}>
+              <Link className='text-sm text-blue-800 hover:underline font-semibold' to={'/search?searchTerm=&type=sale&parking=false&furnished=false&offer=false&sort=createdAt&order=desc'}>
               Show more places for sale
               </Link>
             </div>
@@ -125,7 +126,7 @@ export default function Home() {
           <div className="mt-6">
             <div className="">
               <h2 className='text-2xl font-semibold text-slate-600'>Recent offers</h2>
-              <Link className='text-sm text-blue-800 hover:underline font-semibold' to={'/search/offer=true'}>
+              <Link className='text-sm text-blue-800 hover:underline font-semibold' to={'/search?searchTerm=&type=all&parking=false&furnished=false&offer=true&sort=createdAt&order=desc'}>
                 Show more offers
               </Link>
             </div>
